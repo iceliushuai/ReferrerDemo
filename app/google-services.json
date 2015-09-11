@@ -1,8 +1,8 @@
 {
   "project_info": {
-    "project_id": "du-referrer",
-    "project_number": "68094925054",
-    "name": "Du Referrer"
+    "project_id": "referrer-demo",
+    "project_number": "988514707465",
+    "name": "Referrer Demo"
   },
   "client": [
     {
@@ -19,7 +19,7 @@
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": "UA-67433279-1"
+            "tracking_id": "UA-67244159-1"
           }
         },
         "cloud_messaging_service": {
