@@ -8,12 +8,12 @@ android {
         applicationId "me.iceliushuai.demo.referrer"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 8
-        versionName "1.7"
+        versionCode 9
+        versionName "1.8"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -21,6 +21,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:23.0.0'
     compile 'com.google.android.gms:play-services-analytics:7.8.0'
 }
