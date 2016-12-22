@@ -5,12 +5,12 @@ import android.app.Application;
 /**
  * Created by yrickwong on 15/9/10.
  */
-public class MyApplication extends Application{
+public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化GA
+        //int Google Analytics
         AnalyticsTrackers.initialize(this);
     }
 }

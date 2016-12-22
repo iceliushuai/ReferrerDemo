@@ -3,7 +3,6 @@ package me.iceliushuai.demo.referrer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -17,7 +16,7 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
 
     private static final String LOG_TAG = "ReferrerReceiver";
 
-    public static final String REFERRER_RECEIVED = "me.iceliushuai.demo.referrer.REFERRER_RECEIVED";
+    public static final String REFERRER_RECEIVED = BuildConfig.APPLICATION_ID + ".action.REFERRER_RECEIVED";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -41,17 +40,17 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
                 Intent referrerReceived = new Intent(REFERRER_RECEIVED);
                 referrerReceived.putExtra("referrer", referrer);
                 lbm.sendBroadcast(referrerReceived);
-                sendAnalytivs(referrer);
+                sendAnalytics(referrer);
             }
         }
     }
 
     /**
-     * 发送GA统计
+     * Send GA Campaign Analytics
      *
      * @param referrer
      */
-    private static void sendAnalytivs(String referrer) {
+    private static void sendAnalytics(String referrer) {
         AnalyticsTrackers.getAppTracker().send(new HitBuilders.EventBuilder()
                 .setCategory("Install")
                 .setAction("referrer_count")
@@ -71,5 +70,4 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
         SharedPreferences prefs = context.getSharedPreferences("referrer", Context.MODE_PRIVATE);
         return prefs.getString("referrer", null);
     }
-
 }

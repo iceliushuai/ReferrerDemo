@@ -58,7 +58,7 @@ public final class AnalyticsTrackers {
             Tracker tracker;
             switch (target) {
                 case APP:
-                    tracker = GoogleAnalytics.getInstance(mContext).newTracker(R.xml.app_tracker);
+                    tracker = GoogleAnalytics.getInstance(mContext).newTracker(R.xml.global_tracker);
                     tracker.enableAdvertisingIdCollection(true);
                     break;
                 default:
@@ -71,10 +71,11 @@ public final class AnalyticsTrackers {
     }
 
     /**
-     * 获取本app的tracker
+     * get Application Scope Tracker
+     *
      * @return
      */
-    public static Tracker getAppTracker(){
+    public static Tracker getAppTracker() {
         return AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
     }
 }
