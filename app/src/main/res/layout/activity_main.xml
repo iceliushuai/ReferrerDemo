@@ -15,7 +15,7 @@
         android:text="@string/hello_world" />
 
     <TextView
-        android:id="@+id/referrer"
+        android:id="@+id/tvReferrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tips" />
