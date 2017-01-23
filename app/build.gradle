@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -10,6 +13,11 @@ android {
         versionCode 10
         versionName "1.9"
     }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -24,6 +32,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
 
     compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.anko:anko-sdk15:$anko_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

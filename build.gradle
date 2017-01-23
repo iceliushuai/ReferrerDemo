@@ -1,6 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    ext.kotlin_version = '1.0.6'
+    ext.anko_version = '0.8.3'
+
     repositories {
         jcenter()
     }
@@ -10,11 +14,13 @@ buildscript {
         // in the individual module build.gradle files
 
         classpath 'com.google.gms:google-services:3.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
