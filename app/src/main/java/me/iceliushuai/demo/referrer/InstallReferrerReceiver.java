@@ -1,48 +1,51 @@
 package me.iceliushuai.demo.referrer;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.google.android.gms.analytics.CampaignTrackingReceiver;
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 import com.google.android.gms.analytics.HitBuilders;
 
-public class InstallReferrerReceiver extends BroadcastReceiver {
-
-    private static final String LOG_TAG = "ReferrerReceiver";
+public class InstallReferrerReceiver {
 
     public static final String REFERRER_RECEIVED = BuildConfig.APPLICATION_ID + ".action.REFERRER_RECEIVED";
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+    public static void setup(Context context) {
+        InstallReferrerClient client = InstallReferrerClient.newBuilder(context)
+                .build();
+        client.startConnection(new InstallReferrerStateListener() {
+            @Override
+            public void onInstallReferrerSetupFinished(int responseCode) {
+                if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
+                    try {
+                        ReferrerDetails details = client.getInstallReferrer();
+                        String referrer = details.getInstallReferrer();
 
-        if ("com.android.vending.INSTALL_REFERRER".equals(action)) {
-            Bundle args = intent.getExtras();
+                        if (!TextUtils.isEmpty(referrer)) {
+                            saveReferrer(context, referrer);
+                            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
+                            Intent referrerReceived = new Intent(REFERRER_RECEIVED);
+                            referrerReceived.putExtra("referrer", referrer);
+                            lbm.sendBroadcast(referrerReceived);
+                            sendAnalytics(referrer);
+                        }
+                    } catch (RemoteException e) {
+                        // omit exception
+                    }
+                }
+            }
 
-            if (args == null) {
-                return;
-            }
-            new CampaignTrackingReceiver().onReceive(context, intent);
-            for (String key : args.keySet()) {
-                Log.d(LOG_TAG, key + " = " + args.get(key));
-            }
+            @Override
+            public void onInstallReferrerServiceDisconnected() {
 
-            String referrer = args.getString("referrer");
-            if (!TextUtils.isEmpty(referrer)) {
-                saveReferrer(context, referrer);
-                LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context.getApplicationContext());
-                Intent referrerReceived = new Intent(REFERRER_RECEIVED);
-                referrerReceived.putExtra("referrer", referrer);
-                lbm.sendBroadcast(referrerReceived);
-                sendAnalytics(referrer);
             }
-        }
+        });
     }
 
     /**

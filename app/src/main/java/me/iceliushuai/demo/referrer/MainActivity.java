@@ -6,10 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        referrerTv = (TextView) findViewById(R.id.referrer);
+        referrerTv = findViewById(R.id.referrer);
         String referrer = InstallReferrerReceiver.getSavedReferrer(this);
         referrerTv.setText(referrer == null ? "Empty" : referrer);
 
