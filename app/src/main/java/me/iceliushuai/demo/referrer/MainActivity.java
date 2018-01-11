@@ -1,6 +1,7 @@
 package me.iceliushuai.demo.referrer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -72,6 +73,13 @@ public class MainActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            new AlertDialog
+                    .Builder(this)
+                    .setTitle(R.string.app_name)
+                    .setMessage(getString(R.string.versions, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE))
+                    .setPositiveButton(android.R.string.ok, null)
+                    .create()
+                    .show();
             return true;
         }
 
