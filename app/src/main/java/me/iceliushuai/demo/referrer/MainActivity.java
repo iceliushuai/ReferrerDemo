@@ -7,7 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.BackgroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,16 +22,17 @@ import com.google.android.gms.analytics.Tracker;
 
 public class MainActivity extends Activity {
 
-    TextView referrerTv;
+    TextView referralTv;
     private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        referrerTv = findViewById(R.id.referrer);
-        String referrer = InstallReferrerReceiver.getSavedReferrer(this);
-        referrerTv.setText(referrer == null ? "Empty" : referrer);
+        referralTv = findViewById(R.id.referral);
+
+        String referral = InstallReferrerReceiver.getSavedReferral(this);
+        updateReferralText(referral);
 
         IntentFilter filter = new IntentFilter(InstallReferrerReceiver.REFERRER_RECEIVED);
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getApplication());
@@ -34,11 +40,28 @@ public class MainActivity extends Activity {
         mTracker = AnalyticsTrackers.getAppTracker();
     }
 
+    public void updateReferralText(@Nullable String referral) {
+        if (TextUtils.isEmpty(referral)) {
+            referralTv.setText(R.string.referral_empty);
+        } else {
+            SpannableStringBuilder ssb = new SpannableStringBuilder(getString(R.string.referral_tips));
+            final int start = ssb.length();
+            ssb.append(referral);
+            final int end = ssb.length();
+
+            ssb.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.primary)),
+                    start, end,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            referralTv.setText(ssb);
+        }
+    }
+
     private BroadcastReceiver mReferrerReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String referrer = intent.getStringExtra("referrer");
-            referrerTv.setText(referrer == null ? "Empty" : referrer);
+            String referral = intent.getStringExtra("referrer");
+            updateReferralText(referral);
         }
     };
 

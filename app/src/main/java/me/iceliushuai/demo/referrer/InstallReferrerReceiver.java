@@ -25,15 +25,15 @@ public class InstallReferrerReceiver {
                 if (responseCode == InstallReferrerClient.InstallReferrerResponse.OK) {
                     try {
                         ReferrerDetails details = client.getInstallReferrer();
-                        String referrer = details.getInstallReferrer();
+                        String referral = details.getInstallReferrer();
 
-                        if (!TextUtils.isEmpty(referrer)) {
-                            saveReferrer(context, referrer);
+                        if (!TextUtils.isEmpty(referral)) {
+                            saveReferral(context, referral);
                             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(context);
                             Intent referrerReceived = new Intent(REFERRER_RECEIVED);
-                            referrerReceived.putExtra("referrer", referrer);
+                            referrerReceived.putExtra("referrer", referral);
                             lbm.sendBroadcast(referrerReceived);
-                            sendAnalytics(referrer);
+                            sendAnalytics(referral);
                         }
                     } catch (RemoteException e) {
                         // omit exception
@@ -62,14 +62,14 @@ public class InstallReferrerReceiver {
                 .build());
     }
 
-    public static void saveReferrer(Context context, String referrer) {
+    public static void saveReferral(Context context, String referrer) {
         SharedPreferences prefs = context.getSharedPreferences("referrer", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("referrer", referrer);
         editor.apply();
     }
 
-    public static String getSavedReferrer(Context context) {
+    public static String getSavedReferral(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("referrer", Context.MODE_PRIVATE);
         return prefs.getString("referrer", null);
     }
