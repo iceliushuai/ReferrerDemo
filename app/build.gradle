@@ -7,8 +7,8 @@ android {
         applicationId "me.iceliushuai.demo.referrer"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 10
-        versionName "1.9"
+        versionCode 14
+        versionName "1.9.4"
     }
     buildTypes {
         release {
