@@ -1,6 +1,5 @@
 package me.iceliushuai.demo.referrer;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.text.Spannable;
@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     TextView referralTv;
     private Tracker mTracker;
@@ -51,7 +51,8 @@ public class MainActivity extends Activity {
             ssb.append(referral);
             final int end = ssb.length();
 
-            ssb.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.primary)),
+
+            ssb.setSpan(new BackgroundColorSpan(getResources().getColor(R.color.colorPrimary)),
                     start, end,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
